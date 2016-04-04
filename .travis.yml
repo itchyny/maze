@@ -1,0 +1,33 @@
+sudo: false
+language: go
+go:
+  - 1.6
+env: PATH=/home/travis/gopath/bin:$PATH
+install:
+  - go get github.com/laher/goxc
+script:
+  - make test
+  - make lint
+  - make cross
+deploy:
+  provider: releases
+  api_key:
+    secure: IP6X1Q2s4pN3Totn3QlJKyt8FRXOVpryYTb5dgpJDc/JPuA5x7iGasuqhv5O2scZOEcIUSvWm2j9mdmcDQx4WvwhoUGdxkxmmTOYCGmBMqAXVOQaHDzP3q4/vrbvMoYNteKc8PJPqYqzCamKvjzwYxUMWvKTajO4J7jCKHlANz0EJXg4JJe8JeqWCnWzIw+mT7fZVeDcf8y3UNdlx3qaOvHKW/IUUBYhNb6+V2aJXhWnmFiOJDr/aOv4FdngI98d858FktsTbWhsDAL+M0he5TDAieBKoGKyE3keDv/BBqsjh/wu6typQtPUJf4qpFzplL0MYh0CgLZRvdFxnYIvqI+v2MGaAC2Ul0Ec3NlLj4TYaeNqq+9nCu6I9HAN1lC2r84jsMAByhWyeJ15vBCzksJpMgNIe2vHLRaWKPTtrXEQ6oPgaJveFUHkYL/VkzXzvDe8vY40UmS/uSnGTtMy/idWIwkRFoPc1OAvGnBRl9nqzj6j2Fu1gSQ6xdHSrKiW8O5o98JgJex8AUdHjXCYrCx4ACDhYWVVYiPx1zf8A64qDUHkxPIkIc4u8f6euuubBdJ77A4o2ttT3FP4K2LRFmucJ4M7/TOOZV4J3am5eAPzGUKB2NscUmkkpXs72K7Upwp8tO/BH1DLwmQoTrxGIkiAPJ0qpzi+pZOp0QLTguE=
+  file:
+    - snapshot/maze_darwin_386.zip
+    - snapshot/maze_darwin_amd64.zip
+    - snapshot/maze_freebsd_386.zip
+    - snapshot/maze_freebsd_amd64.zip
+    - snapshot/maze_freebsd_arm.zip
+    - snapshot/maze_linux_386.tar.gz
+    - snapshot/maze_linux_amd64.tar.gz
+    - snapshot/maze_linux_arm.tar.gz
+    - snapshot/maze_netbsd_386.zip
+    - snapshot/maze_netbsd_amd64.zip
+    - snapshot/maze_netbsd_arm.zip
+    - snapshot/maze_windows_386.zip
+    - snapshot/maze_windows_amd64.zip
+  on:
+    repo: itchyny/maze
+    tags: true
+    all_branches: false
