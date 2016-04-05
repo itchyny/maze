@@ -37,6 +37,14 @@ var flags = []cli.Flag{
 		Name:  "output, o",
 		Usage: "Output file name",
 	},
+	cli.BoolFlag{
+		Name:  "image",
+		Usage: "Generate image",
+	},
+	cli.IntFlag{
+		Name:  "scale",
+		Usage: "Scale of image",
+	},
 	cli.StringFlag{
 		Name:  "seed",
 		Usage: "The random seed",
