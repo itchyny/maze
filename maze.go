@@ -1,9 +1,14 @@
 package maze
 
 import (
+	"bytes"
 	"fmt"
+	"image"
+	"image/color"
+	"image/png"
 	"io"
 	"math/rand"
+	"strings"
 )
 
 // Maze cell configurations
@@ -306,6 +311,54 @@ var Color = &Format{
 	VisitedGoalLeft:    "\x1b[42;1mG \x1b[0m",
 	VisitedGoalRight:   "\x1b[42;1m G\x1b[0m",
 	Cursor:             "\x1b[43;1m  \x1b[0m",
+}
+
+func plot(img *image.RGBA, x, y, scale int, c color.Color) {
+	for dy := 0; dy < scale; dy++ {
+		for dx := 0; dx < scale; dx++ {
+			img.Set(x*scale+dx, y*scale+dy, c)
+		}
+	}
+}
+
+// PrintImage out the maze to the IO writer as PNG image
+func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
+	var buf bytes.Buffer
+	maze.Print(&buf, format)
+	lines := strings.Split(strings.TrimSpace(buf.String()), "\n")
+	for i, line := range lines {
+		lines[i] = strings.TrimSpace(line)
+	}
+	width := len(lines[0]) / 2
+	height := len(lines)
+	img := image.NewRGBA(image.Rect(0, 0, width*scale, height*scale))
+	red, green, yellow :=
+		color.RGBA{255, 0, 0, 255},
+		color.RGBA{0, 255, 0, 255},
+		color.RGBA{255, 255, 0, 255}
+	for y := 0; y < height; y++ {
+		if y >= len(lines) {
+			continue
+		}
+		for x := 0; x < width; x++ {
+			if x*2 >= len(lines[y]) {
+				continue
+			}
+			switch lines[y][x*2 : x*2+2] {
+			case "##":
+				plot(img, x, y, scale, color.Black)
+			case "::":
+				plot(img, x, y, scale, yellow)
+			case "S ", " S", "S:", ":S":
+				plot(img, x, y, scale, red)
+			case "G ", " G", "G:", ":G":
+				plot(img, x, y, scale, green)
+			default:
+				plot(img, x, y, scale, color.White)
+			}
+		}
+	}
+	png.Encode(writer, img)
 }
 
 // Print out the maze to the IO writer

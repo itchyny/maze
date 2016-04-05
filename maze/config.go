@@ -10,6 +10,7 @@ import (
 
 	"github.com/codegangsta/cli"
 	"github.com/itchyny/maze"
+	"github.com/mattn/go-isatty"
 	"github.com/nsf/termbox-go"
 )
 
@@ -20,6 +21,8 @@ type Config struct {
 	Start       *maze.Point
 	Goal        *maze.Point
 	Interactive bool
+	Image       bool
+	Scale       int
 	Solution    bool
 	Format      *maze.Format
 	Seed        int64
@@ -82,6 +85,13 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 
 	interactive := ctx.GlobalBool("interactive")
 
+	image := ctx.GlobalBool("image")
+
+	scale := ctx.GlobalInt("scale")
+	if image && scale == 0 {
+		scale = 1
+	}
+
 	solution := ctx.GlobalBool("solution")
 
 	format := maze.Default
@@ -105,6 +115,12 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		}
 	}
 
+	if image {
+		if file, ok := output.(*os.File); ok && isatty.IsTerminal(file.Fd()) {
+			errs = append(errs, errors.New("Cannot write binary data into the terminal. Use -output flag\n\n"))
+		}
+	}
+
 	if len(errs) > 0 {
 		return nil, errs
 	}
@@ -115,6 +131,8 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		Start:       start,
 		Goal:        goal,
 		Interactive: interactive,
+		Image:       image,
+		Scale:       scale,
 		Solution:    solution,
 		Format:      format,
 		Seed:        seed,

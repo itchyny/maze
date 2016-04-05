@@ -16,7 +16,6 @@ func action(ctx *cli.Context) {
 		fmt.Fprintf(os.Stderr, err.Error())
 		return
 	}
-
 	config, errors := makeConfig(ctx)
 	if errors != nil {
 		termbox.Close()
@@ -33,7 +32,11 @@ func action(ctx *cli.Context) {
 		interactive(maze, config.Format)
 	} else {
 		termbox.Close()
-		maze.Print(config.Output, config.Format)
+		if config.Image {
+			maze.PrintImage(config.Output, config.Format, config.Scale)
+		} else {
+			maze.Print(config.Output, config.Format)
+		}
 	}
 }
 
