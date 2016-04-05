@@ -88,6 +88,9 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 	image := ctx.GlobalBool("image")
 
 	scale := ctx.GlobalInt("scale")
+	if image && scale == 0 {
+		scale = 1
+	}
 
 	solution := ctx.GlobalBool("solution")
 
