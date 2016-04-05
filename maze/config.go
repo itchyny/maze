@@ -111,9 +111,6 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 	}
 
 	scale := ctx.GlobalInt("scale")
-	if image && scale == 0 {
-		scale = 1
-	}
 
 	seed := int64(ctx.GlobalInt("seed"))
 	if !ctx.IsSet("seed") {
