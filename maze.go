@@ -321,7 +321,7 @@ func plot(img *image.RGBA, x, y, scale int, c color.Color) {
 	}
 }
 
-// PrintImage out the maze to the IO writer as PNG image
+// PrintImage outputs the maze to the IO writer as PNG image
 func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
 	var buf bytes.Buffer
 	maze.Print(&buf, format)
