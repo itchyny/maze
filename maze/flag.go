@@ -26,6 +26,10 @@ var flags = []cli.Flag{
 		Usage: "Play the maze interactively",
 	},
 	cli.BoolFlag{
+		Name:  "run-cursor",
+		Usage: "Run the cursor on interactive mode",
+	},
+	cli.BoolFlag{
 		Name:  "solution",
 		Usage: "Print the maze with the solution",
 	},

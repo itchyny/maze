@@ -22,7 +22,7 @@ var keyDirs = []*keyDir{
 	&keyDir{termbox.KeyArrowRight, 'l', maze.Right},
 }
 
-func interactive(maze *maze.Maze, format *maze.Format) {
+func interactive(maze *maze.Maze, format *maze.Format, runCursor bool) {
 	events := make(chan termbox.Event)
 	go func() {
 		for {
@@ -42,7 +42,11 @@ loop:
 				if !maze.Finished {
 					for _, keydir := range keyDirs {
 						if event.Key == keydir.key || event.Ch == keydir.char {
-							maze.Move(keydir.dir)
+							if runCursor {
+								maze.Run(keydir.dir)
+							} else {
+								maze.Move(keydir.dir)
+							}
 							if maze.Finished {
 								maze.Solve()
 							}

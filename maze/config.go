@@ -21,6 +21,7 @@ type Config struct {
 	Start       *maze.Point
 	Goal        *maze.Point
 	Interactive bool
+	RunCursor   bool
 	Image       bool
 	Scale       int
 	Solution    bool
@@ -84,6 +85,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 	}
 
 	interactive := ctx.GlobalBool("interactive")
+	runCursor := ctx.GlobalBool("run-cursor")
 
 	solution := ctx.GlobalBool("solution")
 
@@ -127,6 +129,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		Start:       start,
 		Goal:        goal,
 		Interactive: interactive,
+		RunCursor:   runCursor,
 		Image:       image,
 		Scale:       scale,
 		Solution:    solution,

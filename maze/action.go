@@ -29,7 +29,7 @@ func action(ctx *cli.Context) {
 	maze := createMaze(config)
 	if config.Interactive {
 		defer termbox.Close()
-		interactive(maze, config.Format)
+		interactive(maze, config.Format, config.RunCursor)
 	} else {
 		termbox.Close()
 		if config.Image {

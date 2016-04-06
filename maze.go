@@ -212,6 +212,31 @@ func (maze *Maze) Move(direction int) {
 	maze.Finished = maze.Cursor.Equal(maze.Goal)
 }
 
+// Run the cursor
+func (maze *Maze) Run(direction int) {
+	point := maze.Cursor
+	next := point.Advance(direction)
+
+	for {
+		if !maze.Contains(next) {
+			break
+		}
+		if maze.Directions[point.X][point.Y]&direction != direction {
+			break
+		}
+		if !point.Equal(maze.Cursor) && maze.Directions[point.X][point.Y]&(Up|Down|Left|Right) != Opposite[direction]|direction {
+			break
+		}
+		maze.Directions[point.X][point.Y] ^= direction << VisitedOffset
+		maze.Directions[next.X][next.Y] ^= Opposite[direction] << VisitedOffset
+		point = next
+		next = next.Advance(direction)
+	}
+	maze.Cursor = point
+	maze.Started = true
+	maze.Finished = maze.Cursor.Equal(maze.Goal)
+}
+
 // Undo the visited path
 func (maze *Maze) Undo() {
 	point := maze.Cursor
