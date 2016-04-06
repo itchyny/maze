@@ -85,23 +85,11 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 
 	interactive := ctx.GlobalBool("interactive")
 
-	image := ctx.GlobalBool("image")
-
-	scale := ctx.GlobalInt("scale")
-	if image && scale == 0 {
-		scale = 1
-	}
-
 	solution := ctx.GlobalBool("solution")
 
 	format := maze.Default
 	if ctx.GlobalString("format") == "color" {
 		format = maze.Color
-	}
-
-	seed := int64(ctx.GlobalInt("seed"))
-	if !ctx.IsSet("seed") {
-		seed = time.Now().UnixNano()
 	}
 
 	output := ctx.App.Writer
@@ -115,10 +103,18 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		}
 	}
 
+	image := ctx.GlobalBool("image")
 	if image {
 		if file, ok := output.(*os.File); ok && isatty.IsTerminal(file.Fd()) {
 			errs = append(errs, errors.New("Cannot write binary data into the terminal. Use -output flag\n\n"))
 		}
+	}
+
+	scale := ctx.GlobalInt("scale")
+
+	seed := int64(ctx.GlobalInt("seed"))
+	if !ctx.IsSet("seed") {
+		seed = time.Now().UnixNano()
 	}
 
 	if len(errs) > 0 {

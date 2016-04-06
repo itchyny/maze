@@ -43,7 +43,8 @@ var flags = []cli.Flag{
 	},
 	cli.IntFlag{
 		Name:  "scale",
-		Usage: "Scale of image",
+		Usage: "Scale of the image",
+		Value: 1,
 	},
 	cli.StringFlag{
 		Name:  "seed",
