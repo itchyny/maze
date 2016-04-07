@@ -39,7 +39,6 @@ If we change the font size of the terminal smaller, we get a large maze.
 ### Build from source
 ```bash
  $ go get -u github.com/itchyny/maze/maze
- $ go install github.com/itchyny/maze/maze
 ```
 
 ## Bug Tracker
