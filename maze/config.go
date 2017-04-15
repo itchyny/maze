@@ -97,7 +97,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 	if outfile != "" {
 		file, err := os.Create(outfile)
 		if err != nil {
-			errs = append(errs, errors.New("Cannot create the output file: "+outfile+"\n\n"))
+			errs = append(errs, errors.New("cannot create the output file: "+outfile))
 		} else {
 			output = file
 		}
@@ -106,7 +106,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 	image := ctx.GlobalBool("image")
 	if image {
 		if file, ok := output.(*os.File); ok && isatty.IsTerminal(file.Fd()) {
-			errs = append(errs, errors.New("Cannot write binary data into the terminal. Use -output flag\n\n"))
+			errs = append(errs, errors.New("cannot write binary data into the terminal\nuse -output flag"))
 		}
 	}
 

@@ -18,9 +18,16 @@ func action(ctx *cli.Context) {
 	}
 	config, errors := makeConfig(ctx)
 	if errors != nil {
+		hasErr := false
 		termbox.Close()
 		for _, err := range errors {
-			fmt.Fprintf(os.Stderr, err.Error())
+			if err.Error() != "" {
+				fmt.Fprintf(os.Stderr, err.Error()+"\n")
+				hasErr = true
+			}
+		}
+		if hasErr {
+			fmt.Fprintf(os.Stderr, "\n")
 		}
 		cli.ShowAppHelp(ctx)
 		return
