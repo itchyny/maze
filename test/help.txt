@@ -3,5 +3,5 @@ NAME:
 
 USAGE:
    maze [global options] [arguments...]
-   
+
 VERSION:
