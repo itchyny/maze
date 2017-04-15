@@ -10,11 +10,11 @@ import (
 	"github.com/nsf/termbox-go"
 )
 
-func action(ctx *cli.Context) {
+func action(ctx *cli.Context) error {
 	err := termbox.Init()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, err.Error())
-		return
+		return nil
 	}
 	config, errors := makeConfig(ctx)
 	if errors != nil {
@@ -30,7 +30,7 @@ func action(ctx *cli.Context) {
 			fmt.Fprintf(os.Stderr, "\n")
 		}
 		cli.ShowAppHelp(ctx)
-		return
+		return nil
 	}
 
 	maze := createMaze(config)
@@ -45,6 +45,7 @@ func action(ctx *cli.Context) {
 			maze.Print(config.Output, config.Format)
 		}
 	}
+	return nil
 }
 
 func createMaze(config *Config) *maze.Maze {
