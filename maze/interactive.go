@@ -16,10 +16,10 @@ type keyDir struct {
 }
 
 var keyDirs = []*keyDir{
-	&keyDir{termbox.KeyArrowUp, 'k', maze.Up},
-	&keyDir{termbox.KeyArrowDown, 'j', maze.Down},
-	&keyDir{termbox.KeyArrowLeft, 'h', maze.Left},
-	&keyDir{termbox.KeyArrowRight, 'l', maze.Right},
+	{termbox.KeyArrowUp, 'k', maze.Up},
+	{termbox.KeyArrowDown, 'j', maze.Down},
+	{termbox.KeyArrowLeft, 'h', maze.Left},
+	{termbox.KeyArrowRight, 'l', maze.Right},
 }
 
 func interactive(maze *maze.Maze, format *maze.Format) {
