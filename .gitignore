@@ -1,3 +1,4 @@
 build
 snapshot
 .golint.txt
+/vendor
