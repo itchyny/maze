@@ -1,10 +1,10 @@
 BIN = maze
-DIR = maze
+DIR = ./cmd/maze
 
 all: clean test build
 
 build: deps
-	go build -o build/$(BIN) ./$(DIR)
+	go build -o build/$(BIN) $(DIR)
 
 install: deps
 	go install ./...
@@ -14,13 +14,13 @@ deps:
 	dep ensure
 
 cross: crossdeps
-	goxz -os=linux,darwin,freebsd,netbsd,windows -arch=386,amd64 -n $(BIN) ./$(DIR)
+	goxz -os=linux,darwin,freebsd,netbsd,windows -arch=386,amd64 -n $(BIN) $(DIR)
 
 crossdeps: deps
 	go get github.com/Songmu/goxz/cmd/goxz
 
 test: testdeps build
-	go test -v ./$(DIR)...
+	go test -v $(DIR)...
 
 testdeps:
 	go get -d -v -t ./...
