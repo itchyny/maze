@@ -9,14 +9,15 @@ build: deps
 install: deps
 	go install ./...
 
-cross: deps
-	goxc -max-processors=8 -build-ldflags="" \
-	    -os="linux darwin freebsd netbsd windows" -arch="386 amd64 arm" -d . \
-	    -resources-include='README*' -n $(BIN)
-
 deps:
 	go get -u github.com/golang/dep/cmd/dep
 	dep ensure
+
+cross: crossdeps
+	goxz -os=linux,darwin,freebsd,netbsd,windows -arch=386,amd64 -n $(BIN) ./$(DIR)
+
+crossdeps: deps
+	go get github.com/Songmu/goxz/cmd/goxz
 
 test: testdeps build
 	go test -v ./$(DIR)...
@@ -33,7 +34,7 @@ lintdeps:
 	go get -u github.com/golang/lint/golint
 
 clean:
-	rm -rf build snapshot debian
+	rm -rf build goxz
 	go clean
 
-.PHONY: build install cross deps test testdeps lint lintdeps clean
+.PHONY: build install deps cross crossdeps test testdeps lint lintdeps clean

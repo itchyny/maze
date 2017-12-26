@@ -1,4 +1,4 @@
-build
-snapshot
+/build
+/goxz
 .golint.txt
 /vendor
