@@ -2,38 +2,52 @@
 
 
 [[projects]]
+  digest = "1:e85837cb04b78f61688c6eba93ea9d14f60d611e2aaf8319999b1a60d2dafbfa"
   name = "github.com/codegangsta/cli"
   packages = ["."]
+  pruneopts = ""
   revision = "cfb38830724cc34fedffe9a2a29fb54fa9169cd1"
   version = "v1.20.0"
 
 [[projects]]
+  digest = "1:78229b46ddb7434f881390029bd1af7661294af31f6802e0e1bedaad4ab0af3c"
   name = "github.com/mattn/go-isatty"
   packages = ["."]
+  pruneopts = ""
   revision = "0360b2af4f38e8d38c7fce2a9f4e702702d73a39"
   version = "v0.0.3"
 
 [[projects]]
+  digest = "1:81e673df85e765593a863f67cba4544cf40e8919590f04d67664940786c2b61a"
   name = "github.com/mattn/go-runewidth"
   packages = ["."]
+  pruneopts = ""
   revision = "9e777a8366cce605130a531d2cd6363d07ad7317"
   version = "v0.0.2"
 
 [[projects]]
   branch = "master"
+  digest = "1:6e61de1700bbf3fb3e23825ac7806caddd20e61f07677b640b13a5e3676c1baa"
   name = "github.com/nsf/termbox-go"
   packages = ["."]
+  pruneopts = ""
   revision = "aa4a75b1c20a2b03751b1a9f7e41d58bd6f71c43"
 
 [[projects]]
   branch = "master"
+  digest = "1:134679482ac3fd5ecd60c1412510d52272e29e1085bf2dd2d7e79e2d1d38acc0"
   name = "golang.org/x/sys"
   packages = ["unix"]
+  pruneopts = ""
   revision = "83801418e1b59fb1880e363299581ee543af32ca"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7ae4b9c97302a35f895e8e4aeaa1bfef36b827a9099b7ab07af89162f5abdee3"
+  input-imports = [
+    "github.com/codegangsta/cli",
+    "github.com/mattn/go-isatty",
+    "github.com/nsf/termbox-go",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
