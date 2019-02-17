@@ -1,5 +1,5 @@
-BIN = maze
-DIR = ./cmd/maze
+BIN := maze
+DIR := ./cmd/maze
 
 .PHONY: all
 all: clean test build
