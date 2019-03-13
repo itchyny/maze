@@ -1,12 +1,13 @@
 BIN := maze
 DIR := ./cmd/maze
+LDFLAGS := -s -w
 
 .PHONY: all
 all: clean test build
 
 .PHONY: build
 build: deps
-	go build -o build/$(BIN) $(DIR)
+	go build -ldflags "$(LDFLAGS)" -o build/$(BIN) $(DIR)
 
 .PHONY: install
 install: deps
