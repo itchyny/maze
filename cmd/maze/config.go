@@ -49,7 +49,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		height = (termHeight - 5) / 2
 	}
 
-	start := &maze.Point{0, 0}
+	start := &maze.Point{X: 0, Y: 0}
 	starts := strings.Split(ctx.GlobalString("start"), ",")
 	if len(starts) > 0 {
 		if value, err := strconv.Atoi(starts[0]); err == nil {
@@ -66,7 +66,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		}
 	}
 
-	goal := &maze.Point{height - 1, width - 1}
+	goal := &maze.Point{X: height - 1, Y: width - 1}
 	goals := strings.Split(ctx.GlobalString("goal"), ",")
 	if len(goals) > 0 {
 		if value, err := strconv.Atoi(goals[0]); err == nil {
