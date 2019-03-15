@@ -1,22 +1,23 @@
 BIN := maze
 DIR := ./cmd/maze
-LDFLAGS := -s -w
+BUILD_LDFLAGS := "-s -w"
+
+export GO111MODULE=on
 
 .PHONY: all
-all: clean test build
+all: clean build test
 
 .PHONY: build
 build: deps
-	go build -ldflags "$(LDFLAGS)" -o build/$(BIN) $(DIR)
+	go build -ldflags=$(BUILD_LDFLAGS) -o build/$(BIN) $(DIR)
 
 .PHONY: install
 install: deps
-	go install ./...
+	go install -ldflags=$(BUILD_LDFLAGS) ./...
 
 .PHONY: deps
 deps:
-	go get -u github.com/golang/dep/cmd/dep
-	dep ensure
+	go get -d -v ./...
 
 .PHONY: cross
 cross: crossdeps
@@ -24,25 +25,20 @@ cross: crossdeps
 
 .PHONY: crossdeps
 crossdeps: deps
-	go get github.com/Songmu/goxz/cmd/goxz
+	GO111MODULE=off go get github.com/Songmu/goxz/cmd/goxz
 
 .PHONY: test
-test: testdeps build
-	go test -v $(DIR)...
-
-.PHONY: testdeps
-testdeps:
-	go get -d -v -t ./...
+test: build
+	go test -v ./...
 
 .PHONY: lint
-lint: lintdeps build
-	go vet
-	golint -set_exit_status $(go list ./... | grep -v /vendor/)
+lint: build lintdeps
+	go vet ./...
+	golint -set_exit_status ./...
 
 .PHONY: lintdeps
 lintdeps:
-	go get -d -v -t ./...
-	command -v golint >/dev/null || go get -u golang.org/x/lint/golint
+	GO111MODULE=off go get -u golang.org/x/lint/golint
 
 .PHONY: clean
 clean:
