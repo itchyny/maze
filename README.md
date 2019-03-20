@@ -30,7 +30,7 @@ If we change the font size of the terminal smaller, we get a large maze.
 ## Installation
 ### Homebrew
 ```bash
- $ brew install itchyny/maze/maze
+ $ brew install itchyny/tap/maze
 ```
 
 ### Download binary from GitHub Releases
