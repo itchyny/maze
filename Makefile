@@ -3,7 +3,7 @@ BUILD_LDFLAGS := "-s -w"
 export GO111MODULE=on
 
 .PHONY: all
-all: clean build test
+all: clean build
 
 .PHONY: build
 build: deps
