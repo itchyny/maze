@@ -5,17 +5,3 @@ env: PATH=/home/travis/gopath/bin:$PATH
 script:
   - make test
   - make lint
-
-before_deploy:
-  - make cross
-deploy:
-  provider: releases
-  skip_cleanup: true
-  api_key:
-    secure: GSLM10clmBa9Oly0jpzCTO6rilslTVQcEANLzclIc+xtONIgyIcHMLOsHAOMwpyLUiJBvs/6ggrs7M8ezYTIiWjrx4gdRIfEadM/4UckQddT93Cic4dDK9Roj3WvjtjOpuYMWF+JZLJtEtDlllML7b1Xmmj2lqkoMOx/CtTW33KuMIznYPe1m8fVxoqTPp+nUxSzzU7nwdyy0yj9h1XPilwHpO7nb8FSlJcYL/BcnYEdmpCbN1pH+O9aZYq/OO8uT6TGasq8sLaAcRPzCRr4zcuy19CxXwU8mxXnztsm0e29OrFlf8AoBuDM566SDrMD9Eal36wmN3iXrMwWk22O7z/Wx5iO7e4KsUqlJ801ZbuXukXwHFptZkPB7ISmYcnKgiv/mgmLUuYgBoonTds4QME60MetQlctcGiY6bb30tnEGlOoefX3HGR9oFTwtIlaBUUg/+LqEeiJYi6eYicyPhbeJaLQxRy1ZQrRKkZlz1x8p+vRkgvlNNQGzw4fElVx51BB8dOrAcBQhmo3EgOBKcdQUFqNbcCVsJZapoXaxAFZgYoajmyFK9Ml1rM8g0jTn4zLmqPyoisMU7cRjLAKWKaLou14A/L+jwFmWsBsky99UOxephWiceA+yR4fjSMhco9j1+wbQKXbRdfLXO9UYMdUkOXWTDdsWNNlMqoFLvc=
-  file: goxz/*
-  file_glob: true
-  on:
-    repo: itchyny/maze
-    tags: true
-    all_branches: false
