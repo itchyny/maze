@@ -8,10 +8,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codegangsta/cli"
-	"github.com/itchyny/maze"
 	"github.com/mattn/go-isatty"
 	"github.com/nsf/termbox-go"
+	"github.com/urfave/cli"
+
+	"github.com/itchyny/maze"
 )
 
 // Config is the command configuration

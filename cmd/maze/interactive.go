@@ -5,8 +5,9 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/itchyny/maze"
 	"github.com/nsf/termbox-go"
+
+	"github.com/itchyny/maze"
 )
 
 type keyDir struct {

@@ -5,9 +5,10 @@ import (
 	"math/rand"
 	"os"
 
-	"github.com/codegangsta/cli"
-	"github.com/itchyny/maze"
 	"github.com/nsf/termbox-go"
+	"github.com/urfave/cli"
+
+	"github.com/itchyny/maze"
 )
 
 func action(ctx *cli.Context) error {
