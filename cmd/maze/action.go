@@ -11,15 +11,9 @@ import (
 )
 
 func action(ctx *cli.Context) error {
-	err := termbox.Init()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, err.Error())
-		return nil
-	}
 	config, errors := makeConfig(ctx)
 	if errors != nil {
 		hasErr := false
-		termbox.Close()
 		for _, err := range errors {
 			if err.Error() != "" {
 				fmt.Fprintf(os.Stderr, err.Error()+"\n")
@@ -35,10 +29,14 @@ func action(ctx *cli.Context) error {
 
 	maze := createMaze(config)
 	if config.Interactive {
+		err := termbox.Init()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, err.Error())
+			return nil
+		}
 		defer termbox.Close()
 		interactive(maze, config.Format)
 	} else {
-		termbox.Close()
 		if config.Image {
 			maze.PrintImage(config.Output, config.Format, config.Scale)
 		} else {
