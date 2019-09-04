@@ -15,4 +15,6 @@ jobs:
     - name: Test
       run: make test
     - name: Lint
-      run: make lint
+      run: |
+        export PATH=$PATH:$(go env GOPATH)/bin # will be resolved by actions/setup-go
+        make lint
