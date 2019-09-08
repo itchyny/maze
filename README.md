@@ -1,4 +1,4 @@
-# maze [![Travis Build Status](https://travis-ci.org/itchyny/maze.svg?branch=master)](https://travis-ci.org/itchyny/maze)
+# maze [![CI Status](https://github.com/itchyny/maze/workflows/CI/badge.svg)](https://github.com/itchyny/maze/actions)
 
 ![maze](https://raw.githubusercontent.com/wiki/itchyny/maze/image/maze1.gif)
 
