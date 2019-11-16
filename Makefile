@@ -56,10 +56,6 @@ bump: $(GOBIN)/gobump
 	git push
 	git push --tags
 
-.PHONY: crossdocker
-crossdocker:
-	docker run --rm -v ${PWD}:"/$${PWD##*/}" -w "/$${PWD##*/}" golang make cross
-
 .PHONY: upload
 upload: $(GOBIN)/ghr
 	ghr "v$(VERSION)" goxz
