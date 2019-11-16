@@ -17,5 +17,5 @@ jobs:
       run: make test
     - name: Lint
       run: |
-        export PATH=$PATH:$(go env GOPATH)/bin # will be resolved by actions/setup-go
+        export PATH=$PATH:$(go env GOPATH)/bin # remove when actions/setup-go does this
         make lint
