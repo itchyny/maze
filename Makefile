@@ -58,7 +58,7 @@ bump: $(GOBIN)/gobump
 
 .PHONY: crossdocker
 crossdocker:
-	docker run --rm -v `pwd`:"/$${PWD##*/}" -w "/$${PWD##*/}" golang make cross
+	docker run --rm -v ${PWD}:"/$${PWD##*/}" -w "/$${PWD##*/}" golang make cross
 
 .PHONY: upload
 upload: $(GOBIN)/ghr
