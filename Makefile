@@ -66,6 +66,3 @@ upload: $(GOBIN)/ghr
 
 $(GOBIN)/ghr:
 	cd ~ && go get github.com/tcnksm/ghr
-
-.PHONY: release
-release: test lint clean bump crossdocker upload
