@@ -21,14 +21,14 @@ show-version: $(GOBIN)/gobump
 	@gobump show -r $(VERSION_PATH)
 
 $(GOBIN)/gobump:
-	@GO111MODULE=off go get github.com/motemen/gobump/cmd/gobump
+	@cd ~ && go get github.com/motemen/gobump/cmd/gobump
 
 .PHONY: cross
 cross: $(GOBIN)/goxz
 	goxz -n $(BIN) -pv=v$(VERSION) -build-ldflags=$(BUILD_LDFLAGS) ./cmd/$(BIN)
 
 $(GOBIN)/goxz:
-	GO111MODULE=off go get github.com/Songmu/goxz/cmd/goxz
+	cd ~ && go get github.com/Songmu/goxz/cmd/goxz
 
 .PHONY: test
 test: build
@@ -40,7 +40,7 @@ lint: $(GOBIN)/golint
 	golint -set_exit_status ./...
 
 $(GOBIN)/golint:
-	GO111MODULE=off go get golang.org/x/lint/golint
+	cd ~ && go get golang.org/x/lint/golint
 
 .PHONY: clean
 clean:
@@ -65,7 +65,7 @@ upload: $(GOBIN)/ghr
 	ghr "v$(VERSION)" goxz
 
 $(GOBIN)/ghr:
-	GO111MODULE=off go get github.com/tcnksm/ghr
+	cd ~ && go get github.com/tcnksm/ghr
 
 .PHONY: release
 release: test lint clean bump crossdocker upload
