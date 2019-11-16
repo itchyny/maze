@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/mattn/go-isatty"
-	"github.com/nsf/termbox-go"
 	"github.com/urfave/cli"
+	"golang.org/x/crypto/ssh/terminal"
 
 	"github.com/itchyny/maze"
 )
@@ -38,16 +38,19 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		return nil, errs
 	}
 
-	termWidth, termHeight := termbox.Size()
-
 	width := ctx.GlobalInt("width")
-	if width <= 0 {
-		width = (termWidth - 4) / 4
-	}
-
 	height := ctx.GlobalInt("height")
-	if height <= 0 {
-		height = (termHeight - 5) / 2
+	if width <= 0 || height <= 0 {
+		termWidth, termHeight, err := terminal.GetSize(0)
+		if err != nil {
+			return nil, []error{err}
+		}
+		if width <= 0 {
+			width = (termWidth - 4) / 4
+		}
+		if height <= 0 {
+			height = (termHeight - 5) / 2
+		}
 	}
 
 	start := &maze.Point{X: 0, Y: 0}
