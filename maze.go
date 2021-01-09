@@ -31,8 +31,10 @@ const (
 var Directions = []int{Up, Down, Left, Right}
 
 // The differences in the x-y coordinate
-var dx = map[int]int{Up: -1, Down: 1, Left: 0, Right: 0}
-var dy = map[int]int{Up: 0, Down: 0, Left: -1, Right: 1}
+var (
+	dx = map[int]int{Up: -1, Down: 1, Left: 0, Right: 0}
+	dy = map[int]int{Up: 0, Down: 0, Left: -1, Right: 1}
+)
 
 // Opposite directions
 var Opposite = map[int]int{Up: Down, Down: Up, Left: Right, Right: Left}

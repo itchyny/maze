@@ -141,7 +141,8 @@ func printFinished(maze *maze.Maze, duration time.Duration) {
 			str,
 			"                  ",
 			"  Press q to quit ",
-			"                  "} {
+			"                  ",
+		} {
 			for i, c := range s {
 				termbox.SetCell(y+i, x+j, c, fg, bg)
 			}

@@ -4,10 +4,12 @@ import (
 	"os"
 )
 
-var name = "maze"
-var version = "0.0.6"
-var description = "Maze generating and solving program"
-var author = "itchyny"
+var (
+	name        = "maze"
+	version     = "0.0.6"
+	description = "Maze generating and solving program"
+	author      = "itchyny"
+)
 
 func main() {
 	os.Exit(run(os.Args))
