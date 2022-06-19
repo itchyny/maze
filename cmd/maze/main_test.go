@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -27,7 +26,7 @@ func TestMain(t *testing.T) {
 				t.Errorf("FAIL: execution failed: " + filepath.Base(path) + ": " + err.Error() + " " + stderr.String())
 			} else {
 				outfile := strings.TrimSuffix(path, filepath.Ext(path)) + ".txt"
-				expected, err := ioutil.ReadFile(outfile)
+				expected, err := os.ReadFile(outfile)
 				if err != nil {
 					t.Errorf("FAIL: error on reading output file: " + outfile)
 				} else if strings.HasPrefix(string(output), strings.TrimSuffix(string(expected), "\n")) {
