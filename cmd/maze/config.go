@@ -10,7 +10,7 @@ import (
 
 	"github.com/mattn/go-isatty"
 	"github.com/urfave/cli"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 
 	"github.com/itchyny/maze"
 )
@@ -41,7 +41,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 	width := ctx.GlobalInt("width")
 	height := ctx.GlobalInt("height")
 	if width <= 0 || height <= 0 {
-		termWidth, termHeight, err := terminal.GetSize(0)
+		termWidth, termHeight, err := term.GetSize(0)
 		if err != nil {
 			return nil, []error{err}
 		}
