@@ -35,7 +35,7 @@ brew install itchyny/tap/maze
 
 ### Build from source
 ```bash
-go get -u github.com/itchyny/maze/cmd/maze
+go install github.com/itchyny/maze/cmd/maze@latest
 ```
 
 ## Bug Tracker
