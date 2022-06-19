@@ -1,3 +1,4 @@
+// Package maze provides Maze struct and generating algorithm.
 package maze
 
 import (
