@@ -1,7 +1,6 @@
 package maze
 
 import (
-	"bytes"
 	"fmt"
 	"image"
 	"image/color"
@@ -325,9 +324,9 @@ func plot(img *image.RGBA, x, y, scale int, c color.Color) {
 
 // PrintImage outputs the maze to the IO writer as PNG image
 func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
-	var buf bytes.Buffer
-	maze.Print(&buf, format)
-	lines := strings.Split(strings.TrimSpace(buf.String()), "\n")
+	var sb strings.Builder
+	maze.Print(&sb, format)
+	lines := strings.Split(strings.TrimSpace(sb.String()), "\n")
 	for i, line := range lines {
 		lines[i] = strings.TrimSpace(line)
 	}

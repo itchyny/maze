@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -19,8 +18,8 @@ func TestMain(t *testing.T) {
 			cmd := exec.Command("bash", filepath.Base(path))
 			cmd.Dir = filepath.Dir(path)
 			cmd.Env = append(os.Environ(), "PATH="+build+":"+"/bin")
-			stderr := new(bytes.Buffer)
-			cmd.Stderr = stderr
+			var stderr strings.Builder
+			cmd.Stderr = &stderr
 			output, err := cmd.Output()
 			if err != nil {
 				t.Errorf("FAIL: execution failed: " + filepath.Base(path) + ": " + err.Error() + " " + stderr.String())
