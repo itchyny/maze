@@ -333,8 +333,7 @@ func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
 	width := len(lines[0]) / 2
 	height := len(lines)
 	img := image.NewRGBA(image.Rect(0, 0, width*scale, height*scale))
-	red, green, yellow :=
-		color.RGBA{255, 0, 0, 255},
+	red, green, yellow := color.RGBA{255, 0, 0, 255},
 		color.RGBA{0, 255, 0, 255},
 		color.RGBA{255, 255, 0, 255}
 	for y := 0; y < height; y++ {
