@@ -17,12 +17,12 @@ func action(ctx *cli.Context) error {
 		hasErr := false
 		for _, err := range errors {
 			if err.Error() != "" {
-				fmt.Fprintf(os.Stderr, err.Error()+"\n")
+				fmt.Fprint(os.Stderr, err.Error()+"\n")
 				hasErr = true
 			}
 		}
 		if hasErr {
-			fmt.Fprintf(os.Stderr, "\n")
+			fmt.Fprint(os.Stderr, "\n")
 		}
 		cli.ShowAppHelp(ctx)
 		return nil
@@ -32,7 +32,7 @@ func action(ctx *cli.Context) error {
 	if config.Interactive {
 		err := termbox.Init()
 		if err != nil {
-			fmt.Fprintf(os.Stderr, err.Error())
+			fmt.Fprint(os.Stderr, err.Error())
 			return nil
 		}
 		defer termbox.Close()
