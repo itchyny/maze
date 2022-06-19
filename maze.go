@@ -365,21 +365,11 @@ func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
 
 // Print out the maze to the IO writer
 func (maze *Maze) Print(writer io.Writer, format *Format) {
-	strwriter := make(chan string)
-	go maze.Write(strwriter, format)
-	for {
-		str := <-strwriter
-		switch str {
-		case "\u0000":
-			return
-		default:
-			fmt.Fprint(writer, str)
-		}
-	}
+	fmt.Fprint(writer, maze.String(format))
 }
 
-// Write out the maze to the writer channel
-func (maze *Maze) Write(writer chan string, format *Format) {
+func (maze *Maze) String(format *Format) string {
+	var sb strings.Builder
 	// If solved or started, it changes the appearance of the start and the goal
 	startLeft := format.StartLeft
 	if maze.Solved {
@@ -409,82 +399,81 @@ func (maze *Maze) Write(writer chan string, format *Format) {
 	solved := (Up | Down | Left | Right) << SolutionOffset
 	visited := (Up | Down | Left | Right) << VisitedOffset
 	// Print out the maze
-	writer <- "\n"
+	sb.WriteString("\n")
 	for x, row := range maze.Directions {
 		// There are two lines printed for each maze lines
 		for _, direction := range []int{Up, Right} {
-			writer <- format.Path // The left margin
+			sb.WriteString(format.Path) // The left margin
 			// The left wall
 			if maze.Start.X == x && maze.Start.Y == 0 && direction == Right {
-				writer <- startLeft
+				sb.WriteString(startLeft)
 			} else if maze.Goal.X == x && maze.Goal.Y == 0 && maze.Width > 1 && direction == Right {
-				writer <- goalLeft
+				sb.WriteString(goalLeft)
 			} else {
-				writer <- format.Wall
+				sb.WriteString(format.Wall)
 			}
 			for y, directions := range row {
 				// In the `direction == Right` line, we print the path cell
 				if direction == Right {
 					if directions&solved != 0 {
-						writer <- format.Solution
+						sb.WriteString(format.Solution)
 					} else if directions&visited != 0 {
 						if maze.Cursor.X == x && maze.Cursor.Y == y {
-							writer <- format.Cursor
+							sb.WriteString(format.Cursor)
 						} else {
-							writer <- format.Visited
+							sb.WriteString(format.Visited)
 						}
 					} else {
-						writer <- format.Path
+						sb.WriteString(format.Path)
 					}
 				}
 				// Print the start or goal point on the right hand side
 				if maze.Start.X == x && maze.Start.Y == y && y == maze.Width-1 && 0 < y && direction == Right {
-					writer <- startRight
+					sb.WriteString(startRight)
 				} else if maze.Goal.X == x && maze.Goal.Y == y && y == maze.Width-1 && direction == Right {
-					writer <- goalRight
+					sb.WriteString(goalRight)
 				} else
 				// Print the start or goal point on the top wall of the maze
 				if maze.Start.X == x && maze.Start.Y == y && x == 0 && maze.Height > 1 && 0 < y && y < maze.Width-1 && direction == Up {
-					writer <- startLeft
+					sb.WriteString(startLeft)
 				} else if maze.Goal.X == x && maze.Goal.Y == y && x == 0 && maze.Height > 1 && 0 < y && y < maze.Width-1 && direction == Up {
-					writer <- goalLeft
+					sb.WriteString(goalLeft)
 				} else
 				// If there is a path in the direction (Up or Right) on the maze
 				if directions&direction != 0 {
 					// Print the path cell, or the solution cell if solved or the visited cells if the user visited
 					if (directions>>SolutionOffset)&direction != 0 {
-						writer <- format.Solution
+						sb.WriteString(format.Solution)
 					} else if (directions>>VisitedOffset)&direction != 0 {
-						writer <- format.Visited
+						sb.WriteString(format.Visited)
 					} else {
-						writer <- format.Path
+						sb.WriteString(format.Path)
 					}
 				} else {
 					// Print the wall cell
-					writer <- format.Wall
+					sb.WriteString(format.Wall)
 				}
 				// In the `direction == Up` line, we print the wall cell
 				if direction == Up {
-					writer <- format.Wall
+					sb.WriteString(format.Wall)
 				}
 			}
-			writer <- "\n"
+			sb.WriteString("\n")
 		}
 	}
 	// Print the bottom wall of the maze
-	writer <- format.Path
-	writer <- format.Wall
+	sb.WriteString(format.Path)
+	sb.WriteString(format.Wall)
 	for y := 0; y < maze.Width; y++ {
 		if maze.Start.X == maze.Height-1 && maze.Start.Y == y && maze.Height > 1 && 0 < y && y < maze.Width-1 {
-			writer <- startLeft
+			sb.WriteString(startLeft)
 		} else if maze.Goal.X == maze.Height-1 && maze.Goal.Y == y && 0 < y && y < maze.Width-1 {
-			writer <- goalRight
+			sb.WriteString(goalRight)
 		} else {
-			writer <- format.Wall
+			sb.WriteString(format.Wall)
 		}
-		writer <- format.Wall
+		sb.WriteString(format.Wall)
 	}
-	writer <- "\n\n"
-	// Inform that we finished printing the maze
-	writer <- "\u0000"
+	sb.WriteString("\n\n")
+	return sb.String()
 }

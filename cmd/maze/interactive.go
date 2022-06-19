@@ -30,11 +30,10 @@ func interactive(maze *maze.Maze, format *maze.Format) {
 			events <- termbox.PollEvent()
 		}
 	}()
-	strwriter := make(chan string)
 	ticker := time.NewTicker(10 * time.Millisecond)
-	go printTermbox(maze, strwriter, time.Now())
+	start := time.Now()
 	maze.Started = true
-	maze.Write(strwriter, format)
+	printString(maze.String(format))
 loop:
 	for {
 		select {
@@ -47,20 +46,20 @@ loop:
 							if maze.Finished {
 								maze.Solve()
 							}
-							maze.Write(strwriter, format)
+							printString(maze.String(format))
 							continue loop
 						}
 					}
 					if event.Key == termbox.KeyCtrlZ || event.Ch == 'u' {
 						maze.Undo()
-						maze.Write(strwriter, format)
+						printString(maze.String(format))
 					} else if event.Ch == 's' {
 						if maze.Solved {
 							maze.Clear()
 						} else {
 							maze.Solve()
 						}
-						maze.Write(strwriter, format)
+						printString(maze.String(format))
 					}
 				}
 				if event.Ch == 'q' || event.Ch == 'Q' || event.Key == termbox.KeyCtrlC || event.Key == termbox.KeyCtrlD {
@@ -69,34 +68,21 @@ loop:
 			}
 		case <-ticker.C:
 			if !maze.Finished {
-				strwriter <- "\u0000"
+				printFinished(maze, time.Since(start))
+				termbox.Flush()
 			}
 		}
 	}
 	ticker.Stop()
 }
 
-func printTermbox(maze *maze.Maze, strwriter chan string, start time.Time) {
+func printString(str string) {
 	x, y := 1, 0
-	for {
-		str := <-strwriter
-		switch str {
-		case "\u0000":
-			printFinished(maze, time.Now().Sub(start))
-			termbox.Flush()
-			x, y = 1, 0
-		default:
-			printString(str, &x, &y)
-		}
-	}
-}
-
-func printString(str string, x *int, y *int) {
 	attr, skip, d0, d1, d := false, false, '0', '0', false
 	fg, bg := termbox.ColorDefault, termbox.ColorDefault
 	for _, c := range str {
 		if c == '\n' {
-			*x, *y = (*x)+1, 0
+			x, y = x+1, 0
 		} else if c == '\x1b' || attr && c == '[' {
 			attr = true
 		} else if attr && unicode.IsDigit(c) {
@@ -121,8 +107,8 @@ func printString(str string, x *int, y *int) {
 			}
 			attr, skip, d0, d1, d = false, false, '0', '0', false
 		} else {
-			termbox.SetCell(*y, *x, c, fg, bg)
-			*y = *y + 1
+			termbox.SetCell(y, x, c, fg, bg)
+			y = y + 1
 		}
 	}
 }
