@@ -47,6 +47,10 @@ loop:
 								maze.Solve()
 							}
 							printString(maze.String(format))
+							if maze.Finished {
+								printFinished(maze, time.Since(start))
+								termbox.Flush()
+							}
 							continue loop
 						}
 					}
