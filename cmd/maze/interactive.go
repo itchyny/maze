@@ -72,7 +72,7 @@ loop:
 			}
 		case <-ticker.C:
 			if !maze.Finished {
-				printFinished(maze, time.Since(start))
+				printStopwatch(maze, time.Since(start))
 				termbox.Flush()
 			}
 		}
@@ -117,29 +117,27 @@ func printString(str string) {
 	}
 }
 
+func printStopwatch(maze *maze.Maze, duration time.Duration) {
+	for i, c := range fmt.Sprintf("%8d.%02ds      ", duration/time.Second, (duration%time.Second)/1e7) {
+		termbox.SetCell(4*maze.Width+i-8, 1, c, termbox.ColorDefault, termbox.ColorDefault)
+	}
+}
+
 func printFinished(maze *maze.Maze, duration time.Duration) {
-	str := fmt.Sprintf("%8d.%02ds      ", int64(duration/time.Second), int64((duration%time.Second)/1e7))
-	fg, bg := termbox.ColorDefault, termbox.ColorDefault
-	if maze.Finished {
-		x, y := maze.Height, 2*maze.Width-6
-		if y < 0 {
-			y = 0
-		}
-		for j, s := range []string{
-			"                  ",
-			"    Finished!     ",
-			str,
-			"                  ",
-			"  Press q to quit ",
-			"                  ",
-		} {
-			for i, c := range s {
-				termbox.SetCell(y+i, x+j, c, fg, bg)
-			}
-		}
-	} else {
-		for i, c := range str {
-			termbox.SetCell(4*maze.Width+i-8, 1, c, fg, bg)
+	x, y := maze.Height, 2*maze.Width-6
+	if y < 0 {
+		y = 0
+	}
+	for j, s := range []string{
+		"                  ",
+		"    Finished!     ",
+		fmt.Sprintf("%8d.%02ds      ", duration/time.Second, (duration%time.Second)/1e7),
+		"                  ",
+		"  Press q to quit ",
+		"                  ",
+	} {
+		for i, c := range s {
+			termbox.SetCell(y+i, x+j, c, termbox.ColorDefault, termbox.ColorDefault)
 		}
 	}
 }
