@@ -231,20 +231,19 @@ func (maze *Maze) Undo() {
 		if point.Equal(next) {
 			// Previous point was not found (for example: the start point)
 			break
-		} else {
-			// Move backward
-			point = next
-			// If there's another path which has not been visited, stop the procedure
-			count := 0
-			for _, direction := range Directions {
-				if maze.Directions[next.X][next.Y]&direction != 0 {
-					count++
-				}
+		}
+		// Move backward
+		point = next
+		// If there's another path which has not been visited, stop the procedure
+		count := 0
+		for _, direction := range Directions {
+			if maze.Directions[next.X][next.Y]&direction != 0 {
+				count++
 			}
-			// The path we came from, we visited once and another
-			if count > 2 {
-				break
-			}
+		}
+		// The path we came from, we visited once and another
+		if count > 2 {
+			break
 		}
 	}
 	// Move back the cursor
