@@ -238,7 +238,7 @@ func (maze *Maze) Undo() {
 			count := 0
 			for _, direction := range Directions {
 				if maze.Directions[next.X][next.Y]&direction != 0 {
-					count = count + 1
+					count++
 				}
 			}
 			// The path we came from, we visited once and another

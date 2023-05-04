@@ -112,7 +112,7 @@ func printString(str string) {
 			attr, skip, d0, d1, d = false, false, '0', '0', false
 		} else {
 			termbox.SetCell(y, x, c, fg, bg)
-			y = y + 1
+			y++
 		}
 	}
 }
