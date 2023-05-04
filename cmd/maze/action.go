@@ -48,6 +48,7 @@ func action(ctx *cli.Context) error {
 }
 
 func createMaze(config *Config) *maze.Maze {
+	//lint:ignore SA1019 Random seed is necessary for testing.
 	rand.Seed(config.Seed)
 	maze := maze.NewMaze(config.Height, config.Width)
 	maze.Start = config.Start
