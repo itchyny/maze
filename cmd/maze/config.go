@@ -23,6 +23,7 @@ type Config struct {
 	Goal        *maze.Point
 	Interactive bool
 	Image       bool
+	SVG         bool
 	Scale       int
 	Solution    bool
 	Format      *maze.Format
@@ -114,6 +115,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		}
 	}
 
+	svg := ctx.GlobalBool("svg")
 	scale := ctx.GlobalInt("scale")
 
 	seed := int64(ctx.GlobalInt("seed"))
@@ -132,6 +134,7 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		Goal:        goal,
 		Interactive: interactive,
 		Image:       image,
+		SVG:         svg,
 		Scale:       scale,
 		Solution:    solution,
 		Format:      format,

@@ -39,6 +39,10 @@ var flags = []cli.Flag{
 		Name:  "image",
 		Usage: "Generate image",
 	},
+	cli.BoolFlag{
+		Name:  "svg",
+		Usage: "Generate svg",
+	},
 	cli.IntFlag{
 		Name:  "scale",
 		Usage: "Scale of the image",

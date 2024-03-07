@@ -40,6 +40,8 @@ func action(ctx *cli.Context) error {
 	} else {
 		if config.Image {
 			maze.PrintImage(config.Output, config.Format, config.Scale)
+		} else if config.SVG {
+			maze.PrintSVG(config.Output, config.Format, config.Scale)
 		} else {
 			maze.Print(config.Output, config.Format)
 		}
