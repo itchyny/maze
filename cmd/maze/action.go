@@ -42,11 +42,9 @@ func action(ctx *cli.Context) error {
 		case "":
 			maze.Print(config.Output, config.Format)
 		case "png":
-			maze.PrintPNG(config.Output, config.Format, config.Scale)
+			maze.PrintPNG(config.Output, config.Scale)
 		case "svg":
-			maze.PrintSVG(config.Output, config.Format, config.Scale)
-		default:
-			return fmt.Errorf("unsupported image format: %s", config.Image)
+			maze.PrintSVG(config.Output, config.Scale)
 		}
 	}
 	return nil

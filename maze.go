@@ -361,9 +361,9 @@ func plot(img *image.RGBA, x, y, scale int, c color.Color) {
 }
 
 // PrintPNG outputs the maze to the IO writer as PNG image
-func (maze *Maze) PrintPNG(writer io.Writer, format *Format, scale int) {
+func (maze *Maze) PrintPNG(writer io.Writer, scale int) {
 	var sb strings.Builder
-	maze.Print(&sb, format)
+	maze.Print(&sb, Default)
 	lines := strings.Split(strings.TrimSpace(sb.String()), "\n")
 	for i, line := range lines {
 		lines[i] = strings.TrimSpace(line)
@@ -400,17 +400,17 @@ func (maze *Maze) PrintPNG(writer io.Writer, format *Format, scale int) {
 }
 
 // PrintSVG outputs the maze to the IO writer as SVG image
-func (maze *Maze) PrintSVG(writer io.Writer, format *Format, scale int) {
+func (maze *Maze) PrintSVG(writer io.Writer, scale int) {
 	var sb strings.Builder
-	maze.Print(&sb, format)
+	maze.Print(&sb, Default)
 	lines := strings.Split(strings.TrimSpace(sb.String()), "\n")
 	for i, line := range lines {
 		lines[i] = strings.TrimSpace(line)
 	}
 	width := len(lines[0]) / 2
 	height := len(lines)
-	fmt.Fprintf(writer, "<svg viewBox=\"0 0 %d %d\" xmlns=\"http://www.w3.org/2000/svg\">\n", width*scale, height*scale)
-	fmt.Fprintf(writer, "<rect width=\"%d\" height=\" %d\" fill=\"white\" />\n", width*scale, height*scale)
+	fmt.Fprintf(writer, `<svg viewBox="0 0 %d %d" xmlns="http://www.w3.org/2000/svg">`+"\n", width*scale, height*scale)
+	fmt.Fprintf(writer, `<rect width="%d" height="%d" fill="white" />`+"\n", width*scale, height*scale)
 	for y := 0; y < height; y++ {
 		if y >= len(lines) {
 			continue

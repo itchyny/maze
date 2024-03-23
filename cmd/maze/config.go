@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"strconv"
@@ -108,10 +109,19 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 	}
 
 	image := ctx.GlobalString("image")
-	if image != "" {
+	switch image {
+	case "":
+	case "png":
 		if file, ok := output.(*os.File); ok && isatty.IsTerminal(file.Fd()) {
-			errs = append(errs, errors.New("cannot write image data into the terminal\nuse -output flag"))
+			errs = append(errs, errors.New("cannot write PNG data to the terminal\nuse --output flag or redirect the output to a file"))
 		}
+		fallthrough
+	case "svg":
+		if format != maze.Default {
+			errs = append(errs, errors.New("cannot use --color and --image flags together"))
+		}
+	default:
+		errs = append(errs, fmt.Errorf("unsupported image format: %s", image))
 	}
 
 	scale := ctx.GlobalInt("scale")
