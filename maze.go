@@ -322,8 +322,8 @@ func plot(img *image.RGBA, x, y, scale int, c color.Color) {
 	}
 }
 
-// PrintImage outputs the maze to the IO writer as PNG image
-func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
+// PrintPNG outputs the maze to the IO writer as PNG image
+func (maze *Maze) PrintPNG(writer io.Writer, format *Format, scale int) {
 	var sb strings.Builder
 	maze.Print(&sb, format)
 	lines := strings.Split(strings.TrimSpace(sb.String()), "\n")
@@ -361,6 +361,7 @@ func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
 	png.Encode(writer, img)
 }
 
+// PrintSVG outputs the maze to the IO writer as SVG image
 func (maze *Maze) PrintSVG(writer io.Writer, format *Format, scale int) {
 	var sb strings.Builder
 	maze.Print(&sb, format)

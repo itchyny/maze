@@ -38,12 +38,15 @@ func action(ctx *cli.Context) error {
 		defer termbox.Close()
 		interactive(maze, config.Format)
 	} else {
-		if config.Image {
-			maze.PrintImage(config.Output, config.Format, config.Scale)
-		} else if config.SVG {
-			maze.PrintSVG(config.Output, config.Format, config.Scale)
-		} else {
+		switch config.Image {
+		case "":
 			maze.Print(config.Output, config.Format)
+		case "png":
+			maze.PrintPNG(config.Output, config.Format, config.Scale)
+		case "svg":
+			maze.PrintSVG(config.Output, config.Format, config.Scale)
+		default:
+			return fmt.Errorf("unsupported image format: %s", config.Image)
 		}
 	}
 	return nil
