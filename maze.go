@@ -7,7 +7,7 @@ import (
 	"image/color"
 	"image/png"
 	"io"
-	"math/rand"
+	"math/rand/v2"
 	"strings"
 )
 
@@ -65,15 +65,53 @@ type Maze struct {
 	Solved     bool
 	Started    bool
 	Finished   bool
+	randInt    func() int
 }
 
 // NewMaze creates a new maze
-func NewMaze(height int, width int) *Maze {
+func NewMaze(height int, width int, options ...Option) *Maze {
 	var directions [][]int
 	for x := 0; x < height; x++ {
 		directions = append(directions, make([]int, width))
 	}
-	return &Maze{directions, height, width, &Point{0, 0}, &Point{height - 1, width - 1}, &Point{0, 0}, false, false, false}
+	maze := &Maze{
+		Directions: directions,
+		Height:     height,
+		Width:      width,
+		Start:      &Point{0, 0},
+		Goal:       &Point{height - 1, width - 1},
+		Cursor:     &Point{0, 0},
+		randInt:    rand.Int,
+	}
+	for _, option := range options {
+		option(maze)
+	}
+	return maze
+}
+
+// Option is the option for the maze
+type Option func(*Maze)
+
+// WithStart sets the start point of the maze
+func WithStart(start *Point) Option {
+	return func(maze *Maze) {
+		maze.Start = start
+		maze.Cursor = start
+	}
+}
+
+// WithGoal sets the goal point of the maze
+func WithGoal(goal *Point) Option {
+	return func(maze *Maze) {
+		maze.Goal = goal
+	}
+}
+
+// WithRandSource sets the random source of the maze
+func WithRandSource(source rand.Source) Option {
+	return func(maze *Maze) {
+		maze.randInt = rand.New(source).Int
+	}
 }
 
 // Contains judges whether the argument point is inside the maze or not
@@ -112,7 +150,7 @@ func (maze *Maze) Next(point *Point) *Point {
 	if len(neighbors) == 0 {
 		return nil
 	}
-	direction := neighbors[rand.Int()%len(neighbors)]
+	direction := neighbors[maze.randInt()%len(neighbors)]
 	maze.Directions[point.X][point.Y] |= direction
 	next := point.Advance(direction)
 	maze.Directions[next.X][next.Y] |= Opposite[direction]
@@ -131,7 +169,7 @@ func (maze *Maze) Generate() {
 			}
 			stack = append(stack, point)
 		}
-		i := rand.Int() % ((len(stack) + 1) / 2)
+		i := maze.randInt() % ((len(stack) + 1) / 2)
 		point = stack[i]
 		stack = append(stack[:i], stack[i+1:]...)
 	}

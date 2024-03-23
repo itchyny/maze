@@ -26,7 +26,7 @@ type Config struct {
 	Scale       int
 	Solution    bool
 	Format      *maze.Format
-	Seed        int64
+	Seed        uint64
 	Output      io.Writer
 }
 
@@ -116,9 +116,9 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 
 	scale := ctx.GlobalInt("scale")
 
-	seed := int64(ctx.GlobalInt("seed"))
+	seed := uint64(ctx.GlobalInt("seed"))
 	if !ctx.IsSet("seed") {
-		seed = time.Now().UnixNano()
+		seed = uint64(time.Now().UnixNano())
 	}
 
 	if len(errs) > 0 {

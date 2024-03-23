@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
+	"math/rand/v2"
 	"os"
 
 	"github.com/nsf/termbox-go"
@@ -53,12 +53,11 @@ func action(ctx *cli.Context) error {
 }
 
 func createMaze(config *Config) *maze.Maze {
-	//lint:ignore SA1019 Random seed is necessary for testing.
-	rand.Seed(config.Seed)
-	maze := maze.NewMaze(config.Height, config.Width)
-	maze.Start = config.Start
-	maze.Goal = config.Goal
-	maze.Cursor = config.Start
+	maze := maze.NewMaze(config.Height, config.Width,
+		maze.WithStart(config.Start),
+		maze.WithGoal(config.Goal),
+		maze.WithRandSource(rand.NewPCG(config.Seed, config.Seed)),
+	)
 	maze.Generate()
 	if config.Solution {
 		maze.Solve()
