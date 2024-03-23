@@ -22,7 +22,7 @@ type Config struct {
 	Start       *maze.Point
 	Goal        *maze.Point
 	Interactive bool
-	Image       bool
+	Image       string
 	Scale       int
 	Solution    bool
 	Format      *maze.Format
@@ -107,10 +107,10 @@ func makeConfig(ctx *cli.Context) (*Config, []error) {
 		}
 	}
 
-	image := ctx.GlobalBool("image")
-	if image {
+	image := ctx.GlobalString("image")
+	if image != "" {
 		if file, ok := output.(*os.File); ok && isatty.IsTerminal(file.Fd()) {
-			errs = append(errs, errors.New("cannot write binary data into the terminal\nuse -output flag"))
+			errs = append(errs, errors.New("cannot write image data into the terminal\nuse -output flag"))
 		}
 	}
 

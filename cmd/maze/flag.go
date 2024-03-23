@@ -35,9 +35,9 @@ var flags = []cli.Flag{
 		Name:  "output, o",
 		Usage: "Output file name",
 	},
-	cli.BoolFlag{
+	cli.StringFlag{
 		Name:  "image",
-		Usage: "Generate image",
+		Usage: "Generate image, `png` or `svg`",
 	},
 	cli.IntFlag{
 		Name:  "scale",

@@ -322,8 +322,8 @@ func plot(img *image.RGBA, x, y, scale int, c color.Color) {
 	}
 }
 
-// PrintImage outputs the maze to the IO writer as PNG image
-func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
+// PrintPNG outputs the maze to the IO writer as PNG image
+func (maze *Maze) PrintPNG(writer io.Writer, format *Format, scale int) {
 	var sb strings.Builder
 	maze.Print(&sb, format)
 	lines := strings.Split(strings.TrimSpace(sb.String()), "\n")
@@ -359,6 +359,42 @@ func (maze *Maze) PrintImage(writer io.Writer, format *Format, scale int) {
 		}
 	}
 	png.Encode(writer, img)
+}
+
+// PrintSVG outputs the maze to the IO writer as SVG image
+func (maze *Maze) PrintSVG(writer io.Writer, format *Format, scale int) {
+	var sb strings.Builder
+	maze.Print(&sb, format)
+	lines := strings.Split(strings.TrimSpace(sb.String()), "\n")
+	for i, line := range lines {
+		lines[i] = strings.TrimSpace(line)
+	}
+	width := len(lines[0]) / 2
+	height := len(lines)
+	fmt.Fprintf(writer, "<svg viewBox=\"0 0 %d %d\" xmlns=\"http://www.w3.org/2000/svg\">\n", width*scale, height*scale)
+	fmt.Fprintf(writer, "<rect width=\"%d\" height=\" %d\" fill=\"white\" />\n", width*scale, height*scale)
+	for y := 0; y < height; y++ {
+		if y >= len(lines) {
+			continue
+		}
+		for x := 0; x < width; x++ {
+			if x*2 >= len(lines[y]) {
+				continue
+			}
+			switch lines[y][x*2 : x*2+2] {
+			case "##":
+				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="black" />`+"\n", x*scale, y*scale, scale, scale)
+			case "::":
+				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="yellow" />`+"\n", x*scale, y*scale, scale, scale)
+			case "S ", " S", "S:", ":S":
+				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="red" />`+"\n", x*scale, y*scale, scale, scale)
+			case "G ", " G", "G:", ":G":
+				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="green" />`+"\n", x*scale, y*scale, scale, scale)
+			default:
+			}
+		}
+	}
+	fmt.Fprintln(writer, "</svg>")
 }
 
 // Print out the maze to the IO writer
