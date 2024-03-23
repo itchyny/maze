@@ -1,5 +1,5 @@
 # maze
-[![CI Status](https://github.com/itchyny/maze/workflows/CI/badge.svg)](https://github.com/itchyny/maze/actions)
+[![CI Status](https://github.com/itchyny/maze/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/itchyny/maze/actions?query=branch:main)
 
 ![maze](https://raw.githubusercontent.com/wiki/itchyny/maze/image/maze1.gif)
 
@@ -43,7 +43,7 @@ go install github.com/itchyny/maze/cmd/maze@latest
 Report bug at [Issues・itchyny/maze - GitHub](https://github.com/itchyny/maze/issues).
 
 ## Author
-itchyny (https://github.com/itchyny)
+itchyny (<https://github.com/itchyny>)
 
 ## License
 This software is released under the MIT License, see LICENSE.
