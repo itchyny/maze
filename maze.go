@@ -371,9 +371,6 @@ func (maze *Maze) PrintPNG(writer io.Writer, scale int) {
 	width := len(lines[0]) / 2
 	height := len(lines)
 	img := image.NewRGBA(image.Rect(0, 0, width*scale, height*scale))
-	red, green, yellow := color.RGBA{255, 0, 0, 255},
-		color.RGBA{0, 255, 0, 255},
-		color.RGBA{255, 255, 0, 255}
 	for y := 0; y < height; y++ {
 		if y >= len(lines) {
 			continue
@@ -386,11 +383,11 @@ func (maze *Maze) PrintPNG(writer io.Writer, scale int) {
 			case "##":
 				plot(img, x, y, scale, color.Black)
 			case "::":
-				plot(img, x, y, scale, yellow)
+				plot(img, x, y, scale, color.RGBA{0, 0, 255, 255})
 			case "S ", " S", "S:", ":S":
-				plot(img, x, y, scale, red)
+				plot(img, x, y, scale, color.RGBA{255, 0, 0, 255})
 			case "G ", " G", "G:", ":G":
-				plot(img, x, y, scale, green)
+				plot(img, x, y, scale, color.RGBA{0, 255, 0, 255})
 			default:
 				plot(img, x, y, scale, color.White)
 			}
@@ -423,7 +420,7 @@ func (maze *Maze) PrintSVG(writer io.Writer, scale int) {
 			case "##":
 				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="black" />`+"\n", x*scale, y*scale, scale, scale)
 			case "::":
-				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="yellow" />`+"\n", x*scale, y*scale, scale, scale)
+				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="blue" />`+"\n", x*scale, y*scale, scale, scale)
 			case "S ", " S", "S:", ":S":
 				fmt.Fprintf(writer, `<rect x="%d" y="%d" width="%d" height="%d" fill="red" />`+"\n", x*scale, y*scale, scale, scale)
 			case "G ", " G", "G:", ":G":
