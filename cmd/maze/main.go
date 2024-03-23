@@ -6,7 +6,7 @@ import (
 
 var (
 	name        = "maze"
-	version     = "0.0.9"
+	version     = "0.0.10"
 	description = "Maze generating and solving program"
 	author      = "itchyny"
 )
